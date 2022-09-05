@@ -1,25 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { User } from '../interfaces/user.interface';
 
 @Injectable()
 export class UserService {
-  getUsers(): any[] {
-    return [
-      {
-        username: 'Bill',
-      },
-      {
-        username: 'Mark',
-      },
-      {
-        username: 'Zuck',
-      },
-      {
-        username: 'Nobody',
-      },
-    ];
+  private readonly users: User[] = [];
+
+  create(user: User): User {
+    const rawUser = { id: this.users.length, ...user };
+    this.users.push(rawUser);
+    return rawUser;
   }
 
-  getUser(username: string) {
-    return { username };
+  findOne(id: number): User {
+    return this.users.find((user) => user.id === id);
+  }
+
+  findAll(): User[] {
+    return this.users;
   }
 }
